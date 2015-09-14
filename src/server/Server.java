@@ -21,6 +21,7 @@ public class Server {
             System.out.println("Waiting....");
             Socket clientSocket = listeningSocket.accept();
             Connection connection = new Connection(clientSocket);
+            connection.start();
         }
     }
 }

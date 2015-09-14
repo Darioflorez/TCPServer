@@ -12,30 +12,47 @@ public class Connection extends Thread{
     private DataInputStream in;
     private DataOutputStream out;
     private Socket clientSocket;
+    private volatile boolean clientActive;
+    //private Client client;
 
     public Connection (Socket _clientSocket){
         try{
             clientSocket = _clientSocket;
             in = new DataInputStream(clientSocket.getInputStream());
             out = new DataOutputStream(clientSocket.getOutputStream());
-            this.start();
+            clientActive = true;
         }catch(IOException e){
             System.out.println("Connection" + e.getMessage());
         }
     }
     public void run(){
-        try{
-            String data = in.readUTF();
-            out.writeUTF(data);
-        }catch(IOException e){
-            System.out.println("readLine" + e.getMessage());
-        }finally {
+        //While Client Active
+        String data;
+        while(clientActive){
+            System.out.println("Client Connected!!");
             try{
-                clientSocket.close();
+                //Listen for new messages
+                while ((data = in.readUTF()) != null) {
+                    System.out.println("> " + data);
+                    //send back to the client
+                    out.writeUTF(data);
+                }
             }catch(IOException e){
-                System.out.println("Close connection" + e.getMessage());
+                System.out.println("readLine " + e.getMessage());
+                closeConnection();
+            }finally {
+                try{
+                    clientSocket.close();
+                }catch(IOException e){
+                    System.out.println("Close connection" + e.getMessage());
+                }
             }
         }
+    }
+
+    public void closeConnection(){
+        clientActive = false;
+        System.out.println("Client bye!!");
     }
 
 
