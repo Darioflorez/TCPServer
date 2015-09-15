@@ -1,29 +1,20 @@
 package server;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * Created by Dario on 2015-09-08.
  */
 public class Connection extends Thread{
-    private DataInputStream in;
-    private DataOutputStream out;
-    private Socket clientSocket;
+    private ArrayList<Client> connectedClients;
+    private Client client;
     private volatile boolean clientActive;
-    //private Client client;
 
-    public Connection (Socket _clientSocket){
-        try{
-            clientSocket = _clientSocket;
-            in = new DataInputStream(clientSocket.getInputStream());
-            out = new DataOutputStream(clientSocket.getOutputStream());
-            clientActive = true;
-        }catch(IOException e){
-            System.out.println("Connection" + e.getMessage());
-        }
+    public Connection (Client _client, ArrayList<Client> _connectedClients){
+        this.clientActive = true;
+        this.connectedClients = _connectedClients;
+        this.client = _client;
     }
     public void run(){
         System.out.println("Client Connected!!");
@@ -49,7 +40,8 @@ public class Connection extends Thread{
     protected String getMessage(){
         String msg = null;
         try {
-            msg = in.readUTF();
+            //this exceptions means that the socket you try to read from is closed
+            msg = client.read();
         }catch(IOException e){
             System.out.println("getMessage: " + e.getMessage());
         }
@@ -59,7 +51,7 @@ public class Connection extends Thread{
     public void closeConnection(){
         try{
             clientActive = false;
-            clientSocket.close();
+            client.close();
             System.out.println("Client bye!!");
         }catch(IOException e){
             System.out.println("Close connection: " + e.getMessage());
@@ -67,8 +59,9 @@ public class Connection extends Thread{
     }
 
     public boolean respond(String msg){
+        msg = client.getNickname() + ": " + msg;
         try {
-            out.writeUTF(msg);
+            client.write(msg);
             return true;
         }catch(IOException e){
             System.out.println("Respond: " + e.getMessage());
@@ -76,23 +69,45 @@ public class Connection extends Thread{
         }
     }
 
+    /*public synchronized void broadcast(String msg){
+        for(Client client: connectedClients){
+            //What happens if a client fails?
+            client.write(msg);
+        }
+    }*/
+
+    public String getNick(String msg){
+        String[] nickname = msg.split("<");
+        nickname = nickname[1].split(">");
+        return nickname[0];
+    }
+
     public void evalMessage(String msg){
         if(msg.contains("/")){
             String[] cmd = msg.split("/");
-            switch (cmd[1]){
-                case "help":
-                    respond("YOU NEED HELP!");
-                    break;
-                case "quit":
-                    closeConnection();
-                    break;
-                case "who":
-                    respond("WHO!!!");
-                    break;
-                default:
-                    respond("This is not a command!!!");
+
+            //Make this in a function
+            if(cmd[1].contains("nick")){
+                String nickname = getNick(cmd[1]);
+                client.setNickname(nickname);
+                respond(nickname);
+            }else{
+                switch (cmd[1]){
+                    case "help":
+                        respond("YOU NEED HELP!");
+                        break;
+                    case "quit":
+                        closeConnection();
+                        break;
+                    case "who":
+                        respond("WHO!!!");
+                        break;
+                    default:
+                        respond("This is not a command!!!");
+                }
             }
         }else{
+            //broadcast(msg);
             respond(msg);
         }
 
