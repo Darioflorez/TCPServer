@@ -1,8 +1,6 @@
 package server;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 /**
@@ -16,6 +14,10 @@ public class Client {
     private int port;
     private DataInputStream in;
     private DataOutputStream out;
+
+    //alternative
+    BufferedReader input;
+    PrintWriter output;
 
 
     public Client(Socket _socket)throws IOException{
@@ -44,24 +46,32 @@ public class Client {
 
     public void createInput() throws IOException{
         in = new DataInputStream(socket.getInputStream());
+        //alternative
+        input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
     public void createOutput()throws IOException{
         out = new DataOutputStream(socket.getOutputStream());
+        //alternative
+        output = new PrintWriter(socket.getOutputStream(),true);
     }
 
     public void write(String msg)throws IOException{
-        out.writeUTF(msg);
+        //out.writeUTF(msg);
+        output.println(msg);
     }
 
     public String read()throws IOException{
-        String msg = in.readUTF();
+        //String msg = in.readUTF();
+        String msg = input.readLine();
         return msg;
     }
 
     public void close()throws IOException{
         //close socket
         socket.close();
+        input.close();
+        output.close();
     }
 
 

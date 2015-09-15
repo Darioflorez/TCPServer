@@ -12,6 +12,7 @@ import java.util.ArrayList;
         All the other client have to know this
         This client have to be delete from de connectedClients list
     Make a client whit two thread. Listen/Write.
+    Try to create a communication module
 *
 * */
 
@@ -40,6 +41,7 @@ public class Connection extends Thread{
                     } catch (IOException e) {
                         //Think this exception can be arisen by another client than you
                         System.out.println("Problem when sending message: " + e.getMessage());
+                        //close connection if this client throws the exception
                     }
                 }
                 else{
@@ -142,7 +144,7 @@ public class Connection extends Thread{
                     respond(listOfClients);
                     break;
                 default:
-                    respond("This is not a command!!!");
+                    respond("unknown command!");
             }
         }
     }
