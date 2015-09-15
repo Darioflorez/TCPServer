@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="887f25a0-657e-45b9-8c1e-87425a425ba0" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TCPServer/server/Server.class" afterPath="$PROJECT_DIR$/out/production/TCPServer/server/Server.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/Connection.java" afterPath="$PROJECT_DIR$/src/server/Connection.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="TCPServer.iws" />
@@ -510,7 +509,7 @@
       <workItem from="1442240517348" duration="12066000" />
       <workItem from="1442300758102" duration="1080000" />
       <workItem from="1442302305955" duration="2076000" />
-      <workItem from="1442305402229" duration="7574000" />
+      <workItem from="1442305402229" duration="7596000" />
     </task>
     <task id="LOCAL-00001" summary="Simple echoServer">
       <created>1442265413568</created>
@@ -536,11 +535,17 @@
       <option name="project" value="LOCAL" />
       <updated>1442310532897</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Command /help done">
+      <created>1442313000171</created>
+      <option name="number" value="00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1442313000171</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29481000" />
+    <option name="totallyTimeSpent" value="29503000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="697" height="735" extended-state="0" />
@@ -579,7 +584,8 @@
     <MESSAGE value="Simple echoServer" />
     <MESSAGE value="Server split in functions" />
     <MESSAGE value="Command /nick&lt;name&gt; done" />
-    <option name="LAST_COMMIT_MESSAGE" value="Command /nick&lt;name&gt; done" />
+    <MESSAGE value="Command /help done" />
+    <option name="LAST_COMMIT_MESSAGE" value="Command /help done" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
