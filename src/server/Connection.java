@@ -6,6 +6,15 @@ import java.util.ArrayList;
 /**
  * Created by Dario on 2015-09-08.
  */
+
+/*Problem list
+    What to do when a client close?
+        All the other client have to know this
+        This client have to be delete from de connectedClients list
+    Make a client whit two thread. Listen/Write.
+*
+* */
+
 public class Connection extends Thread{
     private ArrayList<Client> connectedClients;
     private Client client;
@@ -20,20 +29,28 @@ public class Connection extends Thread{
         System.out.println("Client Connected!!");
         //While Client Active
         String msg;
-        if(respond("welcome")){
+        try {
+            respond("welcome!");
             while(clientActive){
                 msg = getMessage();
                 if(msg != null){
                     System.out.println("> " + msg);
-                    evalMessage(msg);
+                    try {
+                        handleMessage(msg);
+                    } catch (IOException e) {
+                        //Think this exception can be arisen by another client than you
+                        System.out.println("Problem when sending message: " + e.getMessage());
+                    }
                 }
                 else{
                     closeConnection();
                 }
             }
-        }
-        else{
+        } catch (IOException e) {
+            //This exception can only be arisen by you
+            System.out.println("Problem when sending welcome: " + e.getMessage());
             closeConnection();
+
         }
     }
 
@@ -52,29 +69,25 @@ public class Connection extends Thread{
         try{
             clientActive = false;
             client.close();
+            connectedClients.remove(client);
             System.out.println("Client bye!!");
         }catch(IOException e){
             System.out.println("Close connection: " + e.getMessage());
         }
     }
 
-    public boolean respond(String msg){
+    public void respond(String msg)throws IOException{
         msg = client.getNickname() + ": " + msg;
-        try {
-            client.write(msg);
-            return true;
-        }catch(IOException e){
-            System.out.println("Respond: " + e.getMessage());
-            return false;
-        }
+        client.write(msg);
     }
 
-    /*public synchronized void broadcast(String msg){
+    public synchronized void broadcast(String msg)throws IOException{
+        String from = client.getNickname();
         for(Client client: connectedClients){
             //What happens if a client fails?
-            client.write(msg);
+            client.write(from + ": " + msg);
         }
-    }*/
+    }
 
     public String getNick(String msg){
         String[] nickname = msg.split("<");
@@ -108,7 +121,7 @@ public class Connection extends Thread{
         return commands;
     }
 
-    public void handleCommand(String msg){
+    public void handleCommand(String msg)throws IOException{
         String[] cmd = msg.split("/");
         //Make this in a function
         if(cmd[1].contains("nick")){
@@ -138,12 +151,12 @@ public class Connection extends Thread{
         return msg.contains("/");
     }
 
-    public void evalMessage(String msg){
+    public void handleMessage(String msg)throws IOException{
         if(isCommand(msg)){
             handleCommand(msg);
         }else{
-            //broadcast(msg);
-            respond(msg);
+            broadcast(msg);
+            //respond(msg);
         }
 
     }

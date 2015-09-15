@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="887f25a0-657e-45b9-8c1e-87425a425ba0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TCPServer/server/Server.class" afterPath="$PROJECT_DIR$/out/production/TCPServer/server/Server.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TCPServer/server/Connection.class" afterPath="$PROJECT_DIR$/out/production/TCPServer/server/Connection.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/Connection.java" afterPath="$PROJECT_DIR$/src/server/Connection.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="TCPServer.iws" />
@@ -41,13 +42,17 @@
       <file leaf-file-name="Connection.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/server/Connection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7372449">
-              <caret line="106" column="0" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.47704083">
+              <caret line="13" column="48" selection-start-line="13" selection-start-column="48" selection-end-line="13" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;class#Connection#0" expanded="false" />
-                <element signature="e#4158#4159#0" expanded="true" />
-                <element signature="e#4198#4199#0" expanded="true" />
+                <element signature="method#getMessage#0;class#Connection#0" expanded="false" />
+                <element signature="method#getNick#0;class#Connection#0" expanded="false" />
+                <element signature="method#whoIsConnected#0;class#Connection#0" expanded="false" />
+                <element signature="method#getAvailableCommands#0;class#Connection#0" expanded="false" />
+                <element signature="e#4807#4808#0" expanded="true" />
+                <element signature="e#4847#4848#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -509,7 +514,7 @@
       <workItem from="1442240517348" duration="12066000" />
       <workItem from="1442300758102" duration="1080000" />
       <workItem from="1442302305955" duration="2076000" />
-      <workItem from="1442305402229" duration="7596000" />
+      <workItem from="1442305402229" duration="9778000" />
     </task>
     <task id="LOCAL-00001" summary="Simple echoServer">
       <created>1442265413568</created>
@@ -541,11 +546,17 @@
       <option name="project" value="LOCAL" />
       <updated>1442313000171</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Command /help done">
+      <created>1442313008321</created>
+      <option name="number" value="00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1442313008321</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29503000" />
+    <option name="totallyTimeSpent" value="31685000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="697" height="735" extended-state="0" />
@@ -589,7 +600,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -615,8 +626,12 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#Connection#0" expanded="false" />
-            <element signature="e#4158#4159#0" expanded="true" />
-            <element signature="e#4198#4199#0" expanded="true" />
+            <element signature="method#getMessage#0;class#Connection#0" expanded="false" />
+            <element signature="method#getNick#0;class#Connection#0" expanded="false" />
+            <element signature="method#whoIsConnected#0;class#Connection#0" expanded="false" />
+            <element signature="method#getAvailableCommands#0;class#Connection#0" expanded="false" />
+            <element signature="e#4807#4808#0" expanded="true" />
+            <element signature="e#4847#4848#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -650,8 +665,12 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#Connection#0" expanded="false" />
-            <element signature="e#4158#4159#0" expanded="true" />
-            <element signature="e#4198#4199#0" expanded="true" />
+            <element signature="method#getMessage#0;class#Connection#0" expanded="false" />
+            <element signature="method#getNick#0;class#Connection#0" expanded="false" />
+            <element signature="method#whoIsConnected#0;class#Connection#0" expanded="false" />
+            <element signature="method#getAvailableCommands#0;class#Connection#0" expanded="false" />
+            <element signature="e#4807#4808#0" expanded="true" />
+            <element signature="e#4847#4848#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -685,8 +704,12 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#Connection#0" expanded="false" />
-            <element signature="e#4158#4159#0" expanded="true" />
-            <element signature="e#4198#4199#0" expanded="true" />
+            <element signature="method#getMessage#0;class#Connection#0" expanded="false" />
+            <element signature="method#getNick#0;class#Connection#0" expanded="false" />
+            <element signature="method#whoIsConnected#0;class#Connection#0" expanded="false" />
+            <element signature="method#getAvailableCommands#0;class#Connection#0" expanded="false" />
+            <element signature="e#4807#4808#0" expanded="true" />
+            <element signature="e#4847#4848#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -720,8 +743,12 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#Connection#0" expanded="false" />
-            <element signature="e#4158#4159#0" expanded="true" />
-            <element signature="e#4198#4199#0" expanded="true" />
+            <element signature="method#getMessage#0;class#Connection#0" expanded="false" />
+            <element signature="method#getNick#0;class#Connection#0" expanded="false" />
+            <element signature="method#whoIsConnected#0;class#Connection#0" expanded="false" />
+            <element signature="method#getAvailableCommands#0;class#Connection#0" expanded="false" />
+            <element signature="e#4807#4808#0" expanded="true" />
+            <element signature="e#4847#4848#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -750,13 +777,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/server/Connection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7372449">
-          <caret line="106" column="0" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.47704083">
+          <caret line="13" column="48" selection-start-line="13" selection-start-column="48" selection-end-line="13" selection-end-column="48" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#Connection#0" expanded="false" />
-            <element signature="e#4158#4159#0" expanded="true" />
-            <element signature="e#4198#4199#0" expanded="true" />
+            <element signature="method#getMessage#0;class#Connection#0" expanded="false" />
+            <element signature="method#getNick#0;class#Connection#0" expanded="false" />
+            <element signature="method#whoIsConnected#0;class#Connection#0" expanded="false" />
+            <element signature="method#getAvailableCommands#0;class#Connection#0" expanded="false" />
+            <element signature="e#4807#4808#0" expanded="true" />
+            <element signature="e#4847#4848#0" expanded="true" />
           </folding>
         </state>
       </provider>
