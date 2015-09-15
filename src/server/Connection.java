@@ -82,30 +82,65 @@ public class Connection extends Thread{
         return nickname[0];
     }
 
-    public void evalMessage(String msg){
-        if(msg.contains("/")){
-            String[] cmd = msg.split("/");
-
-            //Make this in a function
-            if(cmd[1].contains("nick")){
-                String nickname = getNick(cmd[1]);
-                client.setNickname(nickname);
-                respond(nickname);
-            }else{
-                switch (cmd[1]){
-                    case "help":
-                        respond("YOU NEED HELP!");
-                        break;
-                    case "quit":
-                        closeConnection();
-                        break;
-                    case "who":
-                        respond("WHO!!!");
-                        break;
-                    default:
-                        respond("This is not a command!!!");
-                }
+    public String whoIsConnected(){
+        String listOfClients = null;
+        if(connectedClients != null){
+            listOfClients = "list of connected clients:" + "\n";
+            for(Client client: connectedClients){
+                listOfClients += "<-> " + client.getNickname() + "\n";
             }
+        }
+        return listOfClients;
+    }
+
+    public String getAvailableCommands(){
+        String space = "               ";
+        String commands = "Available commands:" + "\n";
+        String help = "/help" + space + ": return a list of all available commands" + "\n";
+        String who = "/who" + space + ": return a list of all connected clients" + "\n";
+        String nick = "/nick <nickname>" + space + ": set a nick name for this client" + "\n";
+        String quit = "/quit" + space + ": disconnect this client" + "\n";
+        commands += space + help;
+        commands += space + who;
+        commands += space + nick;
+        commands += space + quit;
+
+        return commands;
+    }
+
+    public void handleCommand(String msg){
+        String[] cmd = msg.split("/");
+        //Make this in a function
+        if(cmd[1].contains("nick")){
+            String nickname = getNick(cmd[1]);
+            client.setNickname(nickname);
+            respond(nickname);
+        }else{
+            switch (cmd[1]){
+                case "help":
+                    String commands = getAvailableCommands();
+                    respond(commands);
+                    break;
+                case "quit":
+                    closeConnection();
+                    break;
+                case "who":
+                    String listOfClients = whoIsConnected();
+                    respond(listOfClients);
+                    break;
+                default:
+                    respond("This is not a command!!!");
+            }
+        }
+    }
+
+    public boolean isCommand(String msg){
+        return msg.contains("/");
+    }
+
+    public void evalMessage(String msg){
+        if(isCommand(msg)){
+            handleCommand(msg);
         }else{
             //broadcast(msg);
             respond(msg);
