@@ -1,6 +1,7 @@
 package server;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 /**
@@ -10,9 +11,13 @@ import java.util.ArrayList;
 /*Problem list
     What to do when a client close?
         All the other client have to know this
-        This client have to be delete from de connectedClients list
+        This client have to be delete from de connectedClients list (this can be seen as a group)
     Make a client whit two thread. Listen/Write.
-    Try to create a communication module
+    Try to create a communication module (Group communication style)
+        every time a new client connect to the server it is added to the group
+        Server send the message to this group. Ex aGroup.send(aMessage);
+    A member can leave(destroy process), fail(destroy process), join(create process)
+        notify all members when a process is added or excluded
 *
 * */
 
@@ -30,41 +35,29 @@ public class Connection extends Thread{
         System.out.println("Client Connected!!");
         //While Client Active
         String msg;
-        try {
-            respond("welcome!");
-            while(clientActive){
+        respond("welcome!");
+        while(clientActive){
+            try {
                 msg = getMessage();
                 if(msg != null){
-                    System.out.println("> " + msg);
-                    try {
-                        handleMessage(msg);
-                    } catch (IOException e) {
-                        //Think this exception can be arisen by another client than you
-                        System.out.println("Problem when sending message: " + e.getMessage());
-                        //close connection if this client throws the exception
-                    }
-                }
-                else{
+                    System.out.println(client.getNickname() + ": " + msg);
+                    handleMessage(msg);
+                }else {
                     closeConnection();
                 }
+            }catch(SocketException e){
+                System.err.println("Client error!");
+                //finish thread
+            } catch (IOException e) {
+                System.out.println("Client died!");
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            //This exception can only be arisen by you
-            System.out.println("Problem when sending welcome: " + e.getMessage());
-            closeConnection();
-
         }
+        System.out.println("Thread exit!");
     }
 
-    protected String getMessage(){
-        String msg = null;
-        try {
-            //this exceptions means that the socket you try to read from is closed
-            msg = client.read();
-        }catch(IOException e){
-            System.out.println("getMessage: " + e.getMessage());
-        }
-        return msg;
+    protected String getMessage()throws IOException{
+        return client.read();
     }
 
     public void closeConnection(){
@@ -72,21 +65,21 @@ public class Connection extends Thread{
             clientActive = false;
             client.close();
             connectedClients.remove(client);
+            broadcast(client.getNickname() + " exits!");
             System.out.println("Client bye!!");
         }catch(IOException e){
             System.out.println("Close connection: " + e.getMessage());
         }
     }
 
-    public void respond(String msg)throws IOException{
+    public void respond(String msg){
         msg = client.getNickname() + ": " + msg;
         client.write(msg);
     }
 
-    public synchronized void broadcast(String msg)throws IOException{
+    public synchronized void broadcast(String msg){
         String from = client.getNickname();
         for(Client client: connectedClients){
-            //What happens if a client fails?
             client.write(from + ": " + msg);
         }
     }
@@ -123,13 +116,18 @@ public class Connection extends Thread{
         return commands;
     }
 
-    public void handleCommand(String msg)throws IOException{
+    public void handleCommand(String msg){
         String[] cmd = msg.split("/");
         //Make this in a function
         if(cmd[1].contains("nick")){
+            //nick name have to be unique
             String nickname = getNick(cmd[1]);
-            client.setNickname(nickname);
-            respond(nickname);
+            if(nicknameIsUsed(nickname)){
+                respond("This nick name is not available!");
+            } else{
+                client.setNickname(nickname);
+                respond(nickname);
+            }
         }else{
             switch (cmd[1]){
                 case "help":
@@ -137,6 +135,7 @@ public class Connection extends Thread{
                     respond(commands);
                     break;
                 case "quit":
+                    //member leave
                     closeConnection();
                     break;
                 case "who":
@@ -149,6 +148,15 @@ public class Connection extends Thread{
         }
     }
 
+    protected boolean nicknameIsUsed(String nickname){
+        for(Client client: connectedClients){
+            if(client.getNickname().equalsIgnoreCase(nickname)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean isCommand(String msg){
         return msg.contains("/");
     }
@@ -158,7 +166,6 @@ public class Connection extends Thread{
             handleCommand(msg);
         }else{
             broadcast(msg);
-            //respond(msg);
         }
 
     }

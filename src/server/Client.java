@@ -12,12 +12,9 @@ public class Client {
     private String address;
     private String nickname;
     private int port;
-    private DataInputStream in;
-    private DataOutputStream out;
 
-    //alternative
-    BufferedReader input;
-    PrintWriter output;
+    private BufferedReader input;
+    private PrintWriter output;
 
 
     public Client(Socket _socket)throws IOException{
@@ -36,35 +33,28 @@ public class Client {
         this.nickname = nickname;
     }
 
-    /*public String getAddress() {
+    public String getAddress() {
         return address;
     }
 
     public int getPort() {
         return port;
-    }*/
+    }
 
     public void createInput() throws IOException{
-        in = new DataInputStream(socket.getInputStream());
-        //alternative
         input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
     public void createOutput()throws IOException{
-        out = new DataOutputStream(socket.getOutputStream());
-        //alternative
         output = new PrintWriter(socket.getOutputStream(),true);
     }
 
-    public void write(String msg)throws IOException{
-        //out.writeUTF(msg);
+    public void write(String msg){
         output.println(msg);
     }
 
-    public String read()throws IOException{
-        //String msg = in.readUTF();
-        String msg = input.readLine();
-        return msg;
+    public String read()throws IOException {
+        return input.readLine();
     }
 
     public void close()throws IOException{
