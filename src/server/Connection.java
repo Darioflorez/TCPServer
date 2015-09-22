@@ -93,9 +93,9 @@ public class Connection extends Thread{
     public String whoIsConnected(){
         String listOfClients = null;
         if(connectedClients != null){
-            listOfClients = "list of connected clients:" + "\n";
+            listOfClients = "list of connected clients:";
             for(Client client: connectedClients){
-                listOfClients += "<-> " + client.getNickname() + "\n";
+                listOfClients +=  "<#>" + "<-> " + client.getNickname();
             }
         }
         return listOfClients;
@@ -103,11 +103,11 @@ public class Connection extends Thread{
 
     public String getAvailableCommands(){
         String space = "               ";
-        String commands = "Available commands:" + "\n";
-        String help = "/help" + space + ": return a list of all available commands" + "\n";
-        String who = "/who" + space + ": return a list of all connected clients" + "\n";
-        String nick = "/nick <nickname>" + space + ": set a nick name for this client" + "\n";
-        String quit = "/quit" + space + ": disconnect this client" + "\n";
+        String commands = "Available commands:" + "<#>";
+        String help = "/help" + space + ": return a list of all available commands" + "<#>";
+        String who = "/who" + space + ": return a list of all connected clients" + "<#>";
+        String nick = "/nick <nickname>" + space + ": set a nick name for this client" + "<#>";
+        String quit = "/quit" + space + ": disconnect this client" + "<#>";
         commands += space + help;
         commands += space + who;
         commands += space + nick;

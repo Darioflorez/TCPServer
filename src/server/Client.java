@@ -33,13 +33,6 @@ public class Client {
         this.nickname = nickname;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public int getPort() {
-        return port;
-    }
 
     public void createInput() throws IOException{
         input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
